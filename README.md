@@ -3,7 +3,7 @@
 ---
 ### 🚀 LIVE DEPLOYMENT
 Check out the live version of this project here:
-👉 **[View Live App on Vercel](https://your-vercel-project-link.vercel.app)** ---
+👉 **[View Live App on Vercel](https://your-vercel-project-link.vercel.app)**
 ---
 ### 🛸 Project Overview
 Task-02 utilizes **Stable Diffusion XL** to transform text into imagery via a **U-Net architecture**, bridging a reactive **Neo-Brutalist** frontend with remote GPU clusters through a **Flask-based Client-Server model** for instantaneous **Base64** DOM injection.
