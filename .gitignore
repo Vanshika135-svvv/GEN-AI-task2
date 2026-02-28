@@ -1,0 +1,17 @@
+# Python environment
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+env/
+
+# Environment variables (SECURITY)
+.env
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Output images
+static/*.png
+static/*.jpg

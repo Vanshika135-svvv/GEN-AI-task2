@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI.LAB // TASK-02</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="main-grid">
+        <header class="bento-box header">
+            <div class="brand">
+                <h1>AI.GEN <span class="badge">V2.6</span></h1>
+                <p class="subtitle">STABLE DIFFUSION // XL_ENGINE</p>
+            </div>
+            <div class="status-group">
+                <div class="status-item">
+                    <span class="label">LATENCY</span>
+                    <span id="timer-display" class="value">00.0s</span>
+                </div>
+                <div class="status-item">
+                    <span class="label">STATUS</span>
+                    <span id="engine-status" class="value color-green">READY</span>
+                </div>
+            </div>
+        </header>
+
+        <aside class="bento-box style-presets">
+            <h3>SELECT VIBE</h3>
+            <div class="tag-cloud">
+                <button class="tag" onclick="addStyle('Cyberpunk, Neon, 8k')">#CYBERPUNK</button>
+                <button class="tag" onclick="addStyle('Studio Ghibli Style, Anime')">#GHIBLI</button>
+                <button class="tag" onclick="addStyle('Oil Painting, Masterpiece')">#RENAISSANCE</button>
+                <button class="tag" onclick="addStyle('Vaporwave, 80s Aesthetic')">#VAPORWAVE</button>
+                <button class="tag" onclick="addStyle('Photorealistic, 35mm Lens')">#REALISM</button>
+            </div>
+        </aside>
+
+        <section class="bento-box input-area">
+            <textarea id="prompt" placeholder="Type your vision here..."></textarea>
+            <div class="controls">
+                <button id="gen-btn" class="main-btn" onclick="generateArt()">
+                    MANIFESТ <span class="icon">✨</span>
+                </button>
+                <button class="sec-btn" onclick="clearPrompt()">CLEAR</button>
+            </div>
+        </section>
+
+        <section class="bento-box display-area">
+            <div id="loader" class="loader-content hidden">
+                <div class="glitch-spinner"></div>
+                <p class="loading-text">PIXELATING REALITY...</p>
+            </div>
+            
+            <p id="placeholder-text" class="placeholder">AWAITING NEURAL INPUT...</p>
+            <img id="output-img" class="hidden" src="" alt="AI Output">
+        </section>
+    </div>
+
+    <script>
+        let startTime;
+        let timerInterval;
+
+        function addStyle(style) {
+            const area = document.getElementById('prompt');
+            area.value += (area.value ? ", " : "") + style;
+        }
+
+        function clearPrompt() {
+            document.getElementById('prompt').value = "";
+        }
+
+        function startTimer() {
+            startTime = Date.now();
+            document.getElementById('engine-status').innerText = "COOKING";
+            document.getElementById('engine-status').className = "value color-pink";
+            timerInterval = setInterval(() => {
+                const elapsed = (Date.now() - startTime) / 1000;
+                document.getElementById('timer-display').innerText = elapsed.toFixed(1) + 's';
+            }, 100);
+        }
+
+        function stopTimer(success = true) {
+            clearInterval(timerInterval);
+            document.getElementById('engine-status').innerText = success ? "SUCCESS" : "ERROR";
+            document.getElementById('engine-status').className = success ? "value color-green" : "value color-red";
+        }
+
+        async function generateArt() {
+            const prompt = document.getElementById('prompt').value;
+            const btn = document.getElementById('gen-btn');
+            const loader = document.getElementById('loader');
+            const placeholder = document.getElementById('placeholder-text');
+            const img = document.getElementById('output-img');
+
+            if (!prompt) return alert("Write something first, bestie.");
+
+            btn.disabled = true;
+            loader.classList.remove('hidden');
+            placeholder.classList.add('hidden');
+            img.classList.add('hidden');
+            startTimer();
+
+            try {
+                const response = await fetch('/generate', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({prompt: prompt})
+                });
+                const data = await response.json();
+                if (data.image) {
+                    img.src = `data:image/png;base64,${data.image}`;
+                    img.classList.remove('hidden');
+                    loader.classList.add('hidden');
+                    stopTimer(true);
+                } else {
+                    throw new Error(data.error);
+                }
+            } catch (e) {
+                stopTimer(false);
+                alert("API Error: " + e.message);
+                placeholder.classList.remove('hidden');
+                loader.classList.add('hidden');
+            } finally {
+                btn.disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>
