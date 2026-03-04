@@ -40,10 +40,12 @@
             <textarea id="prompt" placeholder="Type your vision here..."></textarea>
             <div class="controls">
                 <button id="gen-btn" class="main-btn" onclick="generateArt()">
-                    MANIFESТ <span class="icon">✨</span>
+                    MANIFESТ ✨
                 </button>
-                <button id="dl-btn" class="dl-btn hidden" onclick="downloadArt()">SAVE</button>
-                <button class="sec-btn" onclick="clearPrompt()">CLEAR</button>
+                <div class="btn-row">
+                    <button class="sec-btn" onclick="clearPrompt()">CLEAR</button>
+                    <button id="dl-btn" class="dl-btn hidden" onclick="downloadArt()">SAVE IMG</button>
+                </div>
             </div>
         </section>
 
@@ -52,7 +54,6 @@
                 <div class="glitch-spinner"></div>
                 <p class="loading-text">PIXELATING REALITY...</p>
             </div>
-            
             <p id="placeholder-text" class="placeholder">AWAITING NEURAL INPUT...</p>
             <img id="output-img" class="hidden" src="" alt="AI Output">
         </section>
@@ -69,17 +70,15 @@
 
         function clearPrompt() {
             document.getElementById('prompt').value = "";
-            document.getElementById('dl-btn').classList.add('hidden'); // Hide download if cleared
+            document.getElementById('dl-btn').classList.add('hidden');
         }
 
-        // NEW: Download Logic
         function downloadArt() {
             const img = document.getElementById('output-img');
             if (!img.src) return;
-            
             const link = document.createElement('a');
             link.href = img.src;
-            link.download = `ai-gen-${Date.now()}.png`;
+            link.download = `neural-art-${Date.now()}.png`;
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
@@ -112,7 +111,7 @@
             if (!prompt) return alert("Write something first, bestie.");
 
             btn.disabled = true;
-            dlBtn.classList.add('hidden'); // Hide download while generating
+            dlBtn.classList.add('hidden');
             loader.classList.remove('hidden');
             placeholder.classList.add('hidden');
             img.classList.add('hidden');
@@ -128,7 +127,7 @@
                 if (data.image) {
                     img.src = `data:image/png;base64,${data.image}`;
                     img.classList.remove('hidden');
-                    dlBtn.classList.remove('hidden'); // SHOW DOWNLOAD BUTTON
+                    dlBtn.classList.remove('hidden');
                     loader.classList.add('hidden');
                     stopTimer(true);
                 } else {
@@ -136,7 +135,7 @@
                 }
             } catch (e) {
                 stopTimer(false);
-                alert("API Error: " + e.message);
+                alert("Error: " + e.message);
                 placeholder.classList.remove('hidden');
                 loader.classList.add('hidden');
             } finally {

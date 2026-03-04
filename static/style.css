@@ -46,7 +46,6 @@ body {
 .label { font-size: 0.6rem; font-weight: 900; color: #666; }
 .value { font-size: 1.2rem; font-weight: 900; }
 
-/* Colors for Status */
 .color-green { color: var(--green); text-shadow: 1px 1px var(--black); }
 .color-pink { color: var(--accent); }
 .color-red { color: red; }
@@ -65,7 +64,7 @@ body {
 }
 .tag:hover { background: var(--accent); transform: rotate(-2deg); }
 
-/* Input Area */
+/* --- RESTRUCTURED CONTROLS --- */
 textarea {
     width: 100%;
     height: 120px;
@@ -76,30 +75,53 @@ textarea {
     font-size: 1.1rem;
     outline: none;
 }
-.controls { display: flex; gap: 10px; margin-top: 10px; }
-.main-btn { flex: 3; background: var(--accent); color: white; border: 3px solid var(--black); padding: 15px; font-weight: 900; cursor: pointer; box-shadow: 4px 4px 0px var(--black); }
-.sec-btn { flex: 1; background: #ddd; border: 3px solid var(--black); font-weight: 900; cursor: pointer; box-shadow: 4px 4px 0px var(--black); }
 
-/* NEW: Download Button Style */
-.dl-btn { 
+.controls { 
+    display: flex; 
+    flex-direction: column; /* Stack vertically */
+    gap: 10px; 
+    margin-top: 15px; 
+}
+
+.btn-row {
+    display: flex; /* Side-by-side row for Clear/Save */
+    gap: 10px;
+}
+
+.main-btn { 
+    width: 100%; 
+    background: var(--accent); 
+    color: white; 
+    border: 3px solid var(--black); 
+    padding: 18px; 
+    font-weight: 900; 
+    cursor: pointer; 
+    box-shadow: 4px 4px 0px var(--black);
+    text-transform: uppercase;
+}
+
+.sec-btn, .dl-btn { 
     flex: 1; 
-    background: var(--green); 
+    padding: 12px;
     border: 3px solid var(--black); 
     font-weight: 900; 
     cursor: pointer; 
-    box-shadow: 4px 4px 0px var(--black); 
+    box-shadow: 4px 4px 0px var(--black);
+    text-transform: uppercase;
 }
-.dl-btn:active, .sec-btn:active, .main-btn:active {
+
+.sec-btn { background: #ddd; }
+.dl-btn { background: var(--green); color: var(--black); }
+
+.main-btn:active, .sec-btn:active, .dl-btn:active {
     box-shadow: 0px 0px 0px var(--black);
-    transform: translate(4px, 4px);
+    transform: translate(2px, 2px);
 }
 
 /* Image Display Area */
 .display-area { min-height: 450px; display: flex; justify-content: center; align-items: center; background: #111; color: var(--white); overflow: hidden; }
 #output-img { width: 100%; height: auto; transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-#output-img:hover { transform: scale(1.02); }
 
-/* Glitch Spinner */
 .glitch-spinner {
     width: 60px;
     height: 60px;
@@ -110,10 +132,8 @@ textarea {
 }
 
 @keyframes spin { to { transform: rotate(360deg); } }
-
 .hidden { display: none !important; }
 
-/* Mobile View */
 @media (max-width: 768px) {
     .main-grid { grid-template-areas: "header" "input" "presets" "display"; grid-template-columns: 1fr; }
     body { padding: 10px; }
