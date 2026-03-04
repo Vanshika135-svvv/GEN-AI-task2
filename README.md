@@ -3,7 +3,7 @@
 ---
 ### 🚀 LIVE DEPLOYMENT
 Check out the live version of this project here:
-👉 **[View Live App on Vercel](https://gen-ai-task2-1xj39aea9-vanshika135-svvvs-projects.vercel.app?_vercel_share=32IZQ9gLMyEYAinASe3LP9uVEUrYciad)**
+👉 **[View Live App on Vercel](https://gen-ai-task2.vercel.app?_vercel_share=K7hibZiOtg0bNdkCIZ3ubsE0utuq8gox)**
 ---
 ### 🛸 Project Overview
 Task-02 utilizes **Stable Diffusion XL** to transform text into imagery via a **U-Net architecture**, bridging a reactive **Neo-Brutalist** frontend with remote GPU clusters through a **Flask-based Client-Server model** for instantaneous **Base64** DOM injection.
