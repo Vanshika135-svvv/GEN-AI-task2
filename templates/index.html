@@ -42,6 +42,7 @@
                 <button id="gen-btn" class="main-btn" onclick="generateArt()">
                     MANIFESТ <span class="icon">✨</span>
                 </button>
+                <button id="dl-btn" class="dl-btn hidden" onclick="downloadArt()">SAVE</button>
                 <button class="sec-btn" onclick="clearPrompt()">CLEAR</button>
             </div>
         </section>
@@ -68,6 +69,20 @@
 
         function clearPrompt() {
             document.getElementById('prompt').value = "";
+            document.getElementById('dl-btn').classList.add('hidden'); // Hide download if cleared
+        }
+
+        // NEW: Download Logic
+        function downloadArt() {
+            const img = document.getElementById('output-img');
+            if (!img.src) return;
+            
+            const link = document.createElement('a');
+            link.href = img.src;
+            link.download = `ai-gen-${Date.now()}.png`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
         }
 
         function startTimer() {
@@ -89,6 +104,7 @@
         async function generateArt() {
             const prompt = document.getElementById('prompt').value;
             const btn = document.getElementById('gen-btn');
+            const dlBtn = document.getElementById('dl-btn');
             const loader = document.getElementById('loader');
             const placeholder = document.getElementById('placeholder-text');
             const img = document.getElementById('output-img');
@@ -96,6 +112,7 @@
             if (!prompt) return alert("Write something first, bestie.");
 
             btn.disabled = true;
+            dlBtn.classList.add('hidden'); // Hide download while generating
             loader.classList.remove('hidden');
             placeholder.classList.add('hidden');
             img.classList.add('hidden');
@@ -111,6 +128,7 @@
                 if (data.image) {
                     img.src = `data:image/png;base64,${data.image}`;
                     img.classList.remove('hidden');
+                    dlBtn.classList.remove('hidden'); // SHOW DOWNLOAD BUTTON
                     loader.classList.add('hidden');
                     stopTimer(true);
                 } else {

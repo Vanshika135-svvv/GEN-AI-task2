@@ -80,6 +80,20 @@ textarea {
 .main-btn { flex: 3; background: var(--accent); color: white; border: 3px solid var(--black); padding: 15px; font-weight: 900; cursor: pointer; box-shadow: 4px 4px 0px var(--black); }
 .sec-btn { flex: 1; background: #ddd; border: 3px solid var(--black); font-weight: 900; cursor: pointer; box-shadow: 4px 4px 0px var(--black); }
 
+/* NEW: Download Button Style */
+.dl-btn { 
+    flex: 1; 
+    background: var(--green); 
+    border: 3px solid var(--black); 
+    font-weight: 900; 
+    cursor: pointer; 
+    box-shadow: 4px 4px 0px var(--black); 
+}
+.dl-btn:active, .sec-btn:active, .main-btn:active {
+    box-shadow: 0px 0px 0px var(--black);
+    transform: translate(4px, 4px);
+}
+
 /* Image Display Area */
 .display-area { min-height: 450px; display: flex; justify-content: center; align-items: center; background: #111; color: var(--white); overflow: hidden; }
 #output-img { width: 100%; height: auto; transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
